@@ -8,11 +8,13 @@ import Liblist from "./components/Liblist";
 function App() {
   return (
     <>
-      <h1>Buckeye Flow</h1>
-      <Spot />
+      <div id="container">
+        <h1>Buckeye Flow</h1>
+        <Spot />
 
       <h2>Libraries: </h2>
       <Liblist />
+      </div>
     </>
   );
 }
