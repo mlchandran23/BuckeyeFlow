@@ -7,8 +7,10 @@ import Spot from "./components/Spot";
 function App() {
   return (
     <>
-      <h1>Buckeye Flow</h1>
-      <Spot />
+      <div id="container">
+        <h1>Buckeye Flow</h1>
+        <Spot />
+      </div>
     </>
   );
 }
