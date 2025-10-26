@@ -70,7 +70,7 @@ const Spot = () => {
 
     //Veterinary Medicine Library
     const vetMarker = L.marker([39.99945,  -83.02645])
-    .addTo(map).bindPopup("Vet Library!");
+    .addTo(map).bindPopup("Veterinary Medicine Library!");
 
     //action listener to find coordinates easier
     map.on("click", (e: L.LeafletMouseEvent) => {
