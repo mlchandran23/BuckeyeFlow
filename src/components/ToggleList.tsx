@@ -60,10 +60,10 @@ const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues, onData
             {isVis && selectedLibrary &&(
              <ul>
               <li>Cap: <progress id = "progressbar" value= {selectedLibrary.occupants} max={maxValues[0]}></progress></li>
-              <li>Indivdual Workspaces available: {selectedLibrary.singlePersonTables}/{maxValues[1]}</li>
-              <li>2 Person Workspaces: {selectedLibrary.twoPersonTables}/{maxValues[2]}</li>
-              <li>4 Person Workspaces: {selectedLibrary.fourPersonTables}/{maxValues[3]}</li>
-              <li>5+ Person Workspaces: {selectedLibrary.fivePlusPersonTables}/{maxValues[4]}</li>
+              <li>Indivdual Workspaces in use: {selectedLibrary.singlePersonTables}/{maxValues[1]}</li>
+              <li>2 Person Workspaces in use: {selectedLibrary.twoPersonTables}/{maxValues[2]}</li>
+              <li>4 Person Workspaces in use: {selectedLibrary.fourPersonTables}/{maxValues[3]}</li>
+              <li>5+ Person Workspaces in use: {selectedLibrary.fivePlusPersonTables}/{maxValues[4]}</li>
              </ul>
             )}
 

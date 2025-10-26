@@ -27,12 +27,23 @@ const handleDataFromLiblist = (libraryIndex:number, occupants: number, max: numb
   return (
     <>
       <div id="container">
-        <h1>Buckeye Flow</h1>
-        <Spot allOccupants={allOccupants} allMaxCapacities={allMaxCapacities} />
+        <div id="left-container">
+          <h1>Buckeye Flow</h1>
+          <Spot allOccupants={allOccupants} allMaxCapacities={allMaxCapacities} />
+        </div>
 
-      <h2>Libraries: </h2>
-      <Liblist onDataChange={handleDataFromLiblist}/>
+        <div id="right-container">
+          <h2>Libraries: </h2>
+          <p>
+            Here you can check to see the capacity of each library in the area.
+          </p>
+          <Liblist onDataChange={handleDataFromLiblist} />
+        </div>
       </div>
+
+      <footer>
+        <p>Made by team 146</p>
+      </footer>
     </>
   );
 }
