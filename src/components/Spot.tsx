@@ -18,9 +18,10 @@ const redIcon = new L.Icon({
 const Spot = () => {
   useEffect(() => {
     // longitude and latitude of Ohio State University
-    const map = L.map("map").setView([40.441, -82.9], 13);
+    const map = L.map("map").setView([40.00043,  -83.01803], 15);
 
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      //credit
       attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
@@ -29,20 +30,13 @@ const Spot = () => {
     .addTo(map).bindPopup("OSU is here!")
     .openPopup();
 
-    /*L.marker([95, 30], { icon: redIcon })
-      .addTo(map)
-      .bindPopup("Another spot!")
-   */
-
     //thompson
     const thompMarker = L.marker([39.99923,  -83.01489])
     .addTo(map).bindPopup("Thompson!");
 
-
     //HSL
     const hslMarker = L.marker([39.99477,  -83.01710])
     .addTo(map).bindPopup("Health Sciences Library!");
-
 
     //18th Ave Library
     const aveMarker = L.marker([40.00163,  -83.01337])
