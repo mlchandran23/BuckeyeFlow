@@ -4,6 +4,11 @@ import "leaflet/dist/leaflet.css";
 
 // base all the new icons based on the capacity of each library
 
+interface SpotProps {
+  occupants: number;
+  maxCapacity: number;
+}
+
 const redIcon = new L.Icon({
   iconUrl:
     "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
@@ -15,7 +20,7 @@ const redIcon = new L.Icon({
   shadowSize: [41, 41],
 });
 
-const Spot = () => {
+const Spot: React.FC<SpotProps> = ({ occupants, maxCapacity }) => {
   useEffect(() => {
     // longitude and latitude of Ohio State University
     const map = L.map("map").setView([40.00043,  -83.01803], 15);

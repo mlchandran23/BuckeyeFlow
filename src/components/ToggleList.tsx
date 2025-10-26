@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import  createLibrary from "./Library";
+import Spot from "./Spot";
 
 type LibraryType = ReturnType<typeof createLibrary>;
 
@@ -11,6 +12,8 @@ interface ToggleListProps {
 const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues }) => {
     const [isVis, setIsVis] = useState(false);
     const [libraries, setLibraries] = useState<LibraryType[]>([]);
+    const [occupants, setOccupants] = useState(0);
+    const [maxCap, setMaxCap] = useState(0);
 
     
 
@@ -43,6 +46,13 @@ const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues }) => {
     
     const selectedLibrary = libraries[libraryIndex];
 
+    useEffect(() => {
+        if (selectedLibrary) {
+            setOccupants(selectedLibrary.occupants);
+            setMaxCap(maxValues[0]);
+        }
+    })
+
     return (
         <div> 
             <button onClick={handleToggle}>
@@ -58,6 +68,8 @@ const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues }) => {
               <li>5+ Person Workspaces: {selectedLibrary.fivePlusPersonTables}/{maxValues[4]}</li>
              </ul>
             )}
+
+            <Spot occupants={occupants} maxCapacity={maxCap} />
         </div>
     );
 
