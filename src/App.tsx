@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import reactLogo from "./assets/react.svg";
 import viteLogo from "/vite.svg";
 import "./App.css";
@@ -17,20 +17,26 @@ const hsl = new Array(400, 85, 80, 50, 25);
 const law = new Array(300, 85, 40, 25, 10);
 const vet = new Array(200, 54, 20, 30, 15);  
 
-const allOccupants = [
-  Thompson[0],
-  Eighteenth[0],
-  Architecture[0],
-  FineArts[0],
-  FAES[0],
-  Geology[0],
-  hsl[0],
-  law[0],
-  vet[0],
-];
+const [allOccupants, setAllOccupants] = useState<number[]>([]); 
 const allMaxCapacities = [
   1000, 800, 400, 400, 600, 500, 400, 300,200,
 ];
+
+useEffect(() => {
+  async function loadOccupants() {
+    try {
+    const response = await fetch("/data/libraries.txt");
+    const text = await response.text();
+    const lines = text.split("\n").filter(line => line.trim() !== "");
+
+    const occupants = lines.map(line => parseInt(line.split(",")[0].trim(), 10));
+    setAllOccupants(occupants);
+   } catch(err) {
+     console.error(err);
+   }
+  }
+  loadOccupants();
+}, [])
 
   
 
