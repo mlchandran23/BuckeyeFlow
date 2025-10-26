@@ -25,46 +25,73 @@ const Spot = () => {
       attribution: "&copy; OpenStreetMap contributors",
     }).addTo(map);
 
+    //array for Markers
+    const markers = [];
+
     //osu
     const osuMarker = L.marker([39.99955,  -83.01231])
     .addTo(map).bindPopup("OSU is here!")
     .openPopup();
+    
+    markers.push(osuMarker);
 
     //thompson
     const thompMarker = L.marker([39.99923,  -83.01489])
     .addTo(map).bindPopup("Thompson!");
 
+    markers.push(thompMarker);
+
     //HSL
     const hslMarker = L.marker([39.99477,  -83.01710])
     .addTo(map).bindPopup("Health Sciences Library!");
+
+    markers.push(hslMarker);
 
     //18th Ave Library
     const aveMarker = L.marker([40.00163,  -83.01337])
     .addTo(map).bindPopup("18th Ave Library!");
 
+    markers.push(aveMarker);
+
     //Geology Library
     const geoMarker = L.marker([39.99839,  -83.01179])
     .addTo(map).bindPopup("Geology Library!");
+
+    markers.push(geoMarker);
 
     //Architecture Library
     const archMarker = L.marker([40.00374,  -83.01640])
     .addTo(map).bindPopup("Architecture Library!");
 
+    markers.push(archMarker);
+
     //Fine arts Library
     const artsMarker = L.marker([40.00056,  -83.00897])
     .addTo(map).bindPopup("Fine Arts Library!");
 
+    markers.push(artsMarker);
+
     //FAES Library
     const faesMarker = L.marker([40.00511,  -83.02716])
     .addTo(map).bindPopup("FAES Library!");
+
+    markers.push(faesMarker);
     
     //Law Library
     const lawMarker = L.marker([39.99630,  -83.00827])
     .addTo(map).bindPopup("Law Library!");
 
+    markers.push(lawMarker);
+
     //Veterinary Medicine Library
     const vetMarker = L.marker([39.99945,  -83.02645])
     .addTo(map).bindPopup("Veterinary Medicine Library!");
+
+    markers.push(vetMarker);
+
+    for (let i = 0; i < markers.length; i++) {
+      
+    }
 
     //action listener to find coordinates easier
     map.on("click", (e: L.LeafletMouseEvent) => {
