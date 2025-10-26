@@ -5,8 +5,8 @@ import "leaflet/dist/leaflet.css";
 // base all the new icons based on the capacity of each library
 
 interface SpotProps {
-  occupants: number;
-  maxCapacity: number;
+  allOccupants: number[];
+  allMaxCapacities: number[];
 }
 
 const createBaseIcon = (color: string) => {
@@ -24,7 +24,7 @@ const redIcon = createBaseIcon("red");
 const yellowIcon = createBaseIcon("yellow");
 const greenIcon = createBaseIcon("green");
 
-const Spot: React.FC<SpotProps> = ({ occupants, maxCapacity }) => {
+const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacites }) => {
   useEffect(() => {
     // longitude and latitude of Ohio State University
     const map = L.map("map").setView([40.00043,  -83.01803], 15);

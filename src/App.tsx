@@ -7,19 +7,28 @@ import Liblist from "./components/Liblist";
 
 function App() {
 
-const [occupants, setOccupants] = useState<number>(0);
-const [maxCap, setMaxCap] = useState<number>(0);
+const [allOccupants, setAllOccupants] = useState<number[]>([]);
+const [allMaxCapacities, setAllMaxCapacities] = useState<number[]>([]);
 
-const handleDataFromLiblist = (occ: number, max: number) => {
-  setOccupants(occ);
-  setMaxCap(max);
-}
+const handleDataFromLiblist = (libraryIndex:number, occupants: number, max: number) => {
+  setAllOccupants(prev => {
+    const newArr = [...prev];
+    newArr[libraryIndex] = occupants;
+    return newArr;
+  });
+
+  setAllMaxCapacities(prev => {
+    const newArr = [...prev];
+    newArr[libraryIndex] = max;
+    return newArr;
+  });
+};
 
   return (
     <>
       <div id="container">
         <h1>Buckeye Flow</h1>
-        <Spot occupants={occupants} maxCapacity={maxCap} />
+        <Spot allOccupants={allOccupants} allMaxCapacities={allMaxCapacities} />
 
       <h2>Libraries: </h2>
       <Liblist onDataChange={handleDataFromLiblist}/>

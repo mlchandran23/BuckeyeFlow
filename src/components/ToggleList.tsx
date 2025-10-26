@@ -7,7 +7,7 @@ type LibraryType = ReturnType<typeof createLibrary>;
 interface ToggleListProps {
     libraryIndex: number;
     maxValues: number[];
-    onDataChange?: (occupants: number, max: number) => void;
+    onDataChange?: (libraryIndex: number, occupants: number, max: number) => void;
 }
 
 const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues, onDataChange }) => {
@@ -47,9 +47,9 @@ const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues, onData
 
     useEffect(() => {
         if (selectedLibrary && onDataChange) {
-            onDataChange(selectedLibrary.occupants, maxValues[0]);
+            onDataChange(libraryIndex, selectedLibrary.occupants, maxValues[0]);
         }
-    })
+    }, [selectedLibrary, maxValues, onDataChange, libraryIndex])
 
     return (
         <div> 

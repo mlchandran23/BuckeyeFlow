@@ -2,7 +2,7 @@ import React from "react";
 import ToggleList from "./ToggleList";
 
 interface LiblistProps {
-  onDataChange?: (occupants: number, max: number) => void
+  onDataChange?: (libraryIndex: number, occupants: number, max: number) => void
 }
 
 const Liblist: React.FC<LiblistProps> = ({ onDataChange }) => {
@@ -15,6 +15,7 @@ const Liblist: React.FC<LiblistProps> = ({ onDataChange }) => {
   const geo = new Array(500, 65, 100, 46, 22);
   const hsl = new Array(400, 85, 80, 50, 25);
   const law = new Array(300, 85, 40, 25, 10);
+  const vet = new Array(200, 54, 20, 30, 15);
 
   const maxOccupancies = [
     Thompson[0],
@@ -24,7 +25,8 @@ const Liblist: React.FC<LiblistProps> = ({ onDataChange }) => {
     fae[0],
     geo[0],
     hsl[0],
-    law[0]
+    law[0],
+    vet[0]
   ];
 
   return <div><table>
@@ -63,6 +65,10 @@ const Liblist: React.FC<LiblistProps> = ({ onDataChange }) => {
     <tr>
       <td>Morritz Law</td>
       <td><ToggleList libraryIndex={7} maxValues={law} onDataChange={onDataChange}/></td>
+    </tr>
+    <tr>
+      <td>Vet Health</td>
+      <td><ToggleList libraryIndex={8} maxValues={vet} onDataChange={onDataChange}/></td>
     </tr>
     </table>
   </div>;
