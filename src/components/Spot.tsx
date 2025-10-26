@@ -111,7 +111,7 @@ const Spot: React.FC<SpotProps> = ({ occupants, maxCapacity }) => {
     return () => {
       map.remove();
     };
-  }, []);
+  }, [occupants, maxCapacity]);
 
   return <div id="map" style={{ height: "500px", width: "500px" }}></div>;
 };

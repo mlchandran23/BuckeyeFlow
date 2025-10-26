@@ -7,13 +7,12 @@ type LibraryType = ReturnType<typeof createLibrary>;
 interface ToggleListProps {
     libraryIndex: number;
     maxValues: number[];
+    onDataChange?: (occupants: number, max: number) => void;
 }
 
-const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues }) => {
+const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues, onDataChange }) => {
     const [isVis, setIsVis] = useState(false);
     const [libraries, setLibraries] = useState<LibraryType[]>([]);
-    const [occupants, setOccupants] = useState(0);
-    const [maxCap, setMaxCap] = useState(0);
 
     
 
@@ -47,9 +46,8 @@ const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues }) => {
     const selectedLibrary = libraries[libraryIndex];
 
     useEffect(() => {
-        if (selectedLibrary) {
-            setOccupants(selectedLibrary.occupants);
-            setMaxCap(maxValues[0]);
+        if (selectedLibrary && onDataChange) {
+            onDataChange(selectedLibrary.occupants, maxValues[0]);
         }
     })
 
@@ -69,7 +67,6 @@ const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues }) => {
              </ul>
             )}
 
-            <Spot occupants={occupants} maxCapacity={maxCap} />
         </div>
     );
 
