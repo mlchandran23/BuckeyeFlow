@@ -4,16 +4,20 @@ import "leaflet/dist/leaflet.css";
 
 // base all the new icons based on the capacity of each library
 
-const redIcon = new L.Icon({
-  iconUrl:
-    "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-  shadowUrl:
-    "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
-  iconSize: [25, 41],
-  iconAnchor: [12, 41],
-  popupAnchor: [1, -34],
-  shadowSize: [41, 41],
-});
+const createBaseIcon = (color: string) => {
+  return new L.Icon({
+    iconUrl: `https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-${color}.png`,
+    shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.3.1/images/marker-shadow.png",
+    iconSize: [25, 41],
+    iconAnchor: [12, 41],
+    popupAnchor: [1, -34],
+    shadowSize: [41, 41],
+  });
+};
+
+const redIcon = createBaseIcon("red");
+const yellowIcon = createBaseIcon("yellow");
+const greenIcon = createBaseIcon("green");
 
 const Spot = () => {
   useEffect(() => {
@@ -43,13 +47,15 @@ const Spot = () => {
     const markers: L.Marker[] = []
     libraryLocations.forEach(lib => {
       //set marker for each location
-      const marker = L.marker(lib.coords).addTo(map).bindPopup(`${lib.name}!`);
+      const marker = L.marker(lib.coords)
+      .addTo(map)
+      .bindPopup(`${lib.name}!`);
       markers.push(marker);
 
-      //action listener:
-      marker.on("click", (e: L.LeafletMouseEvent) => {
-        marker.setIcon(redIcon);
-      });
+      // //action listener:
+      // marker.on("mouseover", (e: L.LeafletMouseEvent) => {
+      //   marker.setIcon(greenIcon);
+      // });
 
     });
 
