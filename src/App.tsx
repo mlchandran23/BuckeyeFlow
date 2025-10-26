@@ -9,12 +9,23 @@ function App() {
   return (
     <>
       <div id="container">
-        <h1>Buckeye Flow</h1>
-        <Spot />
+        <div id="left-container">
+          <h1>Buckeye Flow</h1>
+          <Spot />
+        </div>
 
-      <h2>Libraries: </h2>
-      <Liblist />
+        <div id="right-container">
+          <h2>Libraries: </h2>
+          <p>
+            Here you can check to see the capacity of each library in the area.
+          </p>
+          <Liblist />
+        </div>
       </div>
+
+      <footer>
+        <p>Made by team 146</p>
+      </footer>
     </>
   );
 }

@@ -1,67 +1,82 @@
 import React, { useEffect, useState } from "react";
-import  createLibrary from "./Library";
+import createLibrary from "./Library";
 
 type LibraryType = ReturnType<typeof createLibrary>;
 
 interface ToggleListProps {
-    libraryIndex: number;
-    maxValues: number[];
+  libraryIndex: number;
+  maxValues: number[];
 }
 
 const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues }) => {
-    const [isVis, setIsVis] = useState(false);
-    const [libraries, setLibraries] = useState<LibraryType[]>([]);
+  const [isVis, setIsVis] = useState(false);
+  const [libraries, setLibraries] = useState<LibraryType[]>([]);
 
-    
+  useEffect(() => {
+    async function loadLibraries() {
+      try {
+        const response = await fetch("/data/libraries.txt");
+        const text = await response.text();
 
-    useEffect(() => {
-        async function loadLibraries() {
-            try {
-                const response = await fetch("/data/libraries.txt");
-                const text = await response.text();
+        const lines = text.split("\n").filter((line) => line.trim() !== "");
 
-                const lines = text.split("\n").filter(line => line.trim() !== "");
+        const libs = lines.map((line) => {
+          const [occupants, single, two, four, fivePlus] = line
+            .split(",")
+            .map((num) => parseInt(num.trim(), 10));
 
-                const libs = lines.map(line => {
-                    const [occupants, single, two, four, fivePlus] = line.split(",").map(num => parseInt(num.trim(), 10));
+          return createLibrary(occupants, single, two, four, fivePlus);
+        });
 
-                    return createLibrary(occupants, single, two, four, fivePlus);
-                });
-
-                setLibraries(libs);
-            } catch (err) {
-                console.error("Error loading libraries", err);
-            }
-        }
-
-        loadLibraries();
-    }, []);
-
-    const handleToggle = () => {
-        setIsVis(!isVis);
+        setLibraries(libs);
+      } catch (err) {
+        console.error("Error loading libraries", err);
+      }
     }
-    
-    const selectedLibrary = libraries[libraryIndex];
 
-    return (
-        <div> 
-            <button onClick={handleToggle}>
-                {isVis ? "-" : "+"}
-            </button>
+    loadLibraries();
+  }, []);
 
-            {isVis && selectedLibrary &&(
-             <ul>
-              <li>Cap: <progress id = "progressbar" value= {selectedLibrary.occupants} max={maxValues[0]}></progress></li>
-              <li>Indivdual Workspaces available: {selectedLibrary.singlePersonTables}/{maxValues[1]}</li>
-              <li>2 Person Workspaces: {selectedLibrary.twoPersonTables}/{maxValues[2]}</li>
-              <li>4 Person Workspaces: {selectedLibrary.fourPersonTables}/{maxValues[3]}</li>
-              <li>5+ Person Workspaces: {selectedLibrary.fivePlusPersonTables}/{maxValues[4]}</li>
-             </ul>
-            )}
-        </div>
-    );
+  const handleToggle = () => {
+    setIsVis(!isVis);
+  };
 
+  const selectedLibrary = libraries[libraryIndex];
 
+  return (
+    <div>
+      <button onClick={handleToggle}>{isVis ? "-" : "+"}</button>
+
+      {isVis && selectedLibrary && (
+        <ul style={{ listStyleType: "none", padding: 0 }}>
+          <li>
+            Cap:{" "}
+            <progress
+              id="progressbar"
+              value={selectedLibrary.occupants}
+              max={maxValues[0]}
+            ></progress>
+          </li>
+          <li>
+            Indivdual Workspaces available: {selectedLibrary.singlePersonTables}
+            /{maxValues[1]}
+          </li>
+          <li>
+            2 Person Workspaces: {selectedLibrary.twoPersonTables}/
+            {maxValues[2]}
+          </li>
+          <li>
+            4 Person Workspaces: {selectedLibrary.fourPersonTables}/
+            {maxValues[3]}
+          </li>
+          <li>
+            5+ Person Workspaces: {selectedLibrary.fivePlusPersonTables}/
+            {maxValues[4]}
+          </li>
+        </ul>
+      )}
+    </div>
+  );
 };
 
-export default ToggleList
+export default ToggleList;
