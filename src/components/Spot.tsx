@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import * as L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -24,15 +24,36 @@ const redIcon = createBaseIcon("red");
 const yellowIcon = createBaseIcon("yellow");
 const greenIcon = createBaseIcon("green");
 
-const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacites }) => {
-  useEffect(() => {
-    // longitude and latitude of Ohio State University
-    const map = L.map("map").setView([40.00043,  -83.01803], 15);
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      //credit
-      attribution: "&copy; OpenStreetMap contributors",
-    }).addTo(map);
+const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacities }) => {
+  const mapRef = useRef<L.Map | null>(null);
+
+  //useEffect for initialization
+  useEffect(() => {
+  if (mapRef.current) return;
+
+  if (L.DomUtil.get("map") !== null) {
+    L.DomUtil.get("map")!.innerHTML = "";
+  }
+
+  const map = L.map("map").setView([40.00043, -83.01803], 15);
+  mapRef.current = map;
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "&copy; OpenStreetMap contributors",
+  }).addTo(map);
+  }, []);
+
+  //useEffect for if data changes
+  useEffect(() => {
+    const map = mapRef.current;
+    if (!map) return;
+
+    map.eachLayer(layer => {
+      if (layer instanceof L.Marker) {
+        map.removeLayer(layer);
+      }
+    });
 
     //array for library locations
     const libraryLocations: { name: string; coords: [number, number] }[] = [
@@ -45,9 +66,16 @@ const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacites }) => {
       { name: "Health Sciences Library", coords: [39.99477, -83.01710] },
       { name: "Law Library", coords: [39.99630,  -83.00827] },
       { name: "Veterinary Medicine Library", coords: [39.99945,  -83.02645] },
-      { name: "OSU is here", coords: [39.99955,  -83.01231] },
+      
     ];
 
+    const percentage: number[] = [];
+
+    for(let i = 0; i < allMaxCapacities.length; i++){
+      percentage[i] = allOccupants[i] / allMaxCapacities[i] * 100;
+    }
+
+    let count = 0;
     //array of markers
     const markers: L.Marker[] = []
     libraryLocations.forEach(lib => {
@@ -57,45 +85,31 @@ const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacites }) => {
       .bindPopup(`${lib.name}!`);
       markers.push(marker);
 
-      const percentage = occupants / maxCapacity * 100;
-
-      if(percentage > 66){
+      if(percentage[count] > 66){
         marker.setIcon(redIcon);
-      }else if(percentage > 33){
+      }else if(percentage[count] > 33){
         marker.setIcon(yellowIcon);
       }else{
         marker.setIcon(greenIcon);
       }
-      // //action listener:
-      // marker.on("mouseover", (e: L.LeafletMouseEvent) => {
-      //   marker.setIcon(greenIcon);
-      // });
 
+      marker.on("click", () => {
+        console.log(`Marker clicked: ${lib.name}`);
+        marker.openPopup(); // Optional: open popup on click
+      });
+      count++;
     });
 
 
+    //osu marker
+    const marker = L.marker([39.99955,  -83.01231])
+    .addTo(map)
+    .bindPopup("OSU Here!")
+    .openPopup();
+    markers.push(marker);
 
-    //open message "OSU is here!"
-    markers[0].openPopup();
 
-    for (let i = 0; i < markers.length; i++) {
-      
-    }
-
-    //action listener to find coordinates easier
-    map.on("click", (e: L.LeafletMouseEvent) => {
-      const { lat, lng } = e.latlng;
-      L.popup()
-        .setLatLng(e.latlng)
-        .setContent(`Coordinates:<br>Latitude: ${lat.toFixed(5)}<br>Longitude: ${lng.toFixed(5)}`)
-        .openOn(map);
-    });
-
-    // Optional cleanup
-    return () => {
-      map.remove();
-    };
-  }, [occupants, maxCapacity]);
+  }, [allOccupants, allMaxCapacities]);
 
   return <div id="map" style={{ height: "500px", width: "500px" }}></div>;
 };
