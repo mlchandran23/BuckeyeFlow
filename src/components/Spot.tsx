@@ -46,6 +46,7 @@ const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacities }) => {
 
   //useEffect for if data changes
   useEffect(() => {
+    const interval = setInterval(() => {
     const map = mapRef.current;
     if (!map) return;
 
@@ -93,22 +94,13 @@ const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacities }) => {
         marker.setIcon(greenIcon);
       }
 
-      marker.on("click", () => {
-        console.log(`Marker clicked: ${lib.name}`);
-        marker.openPopup(); // Optional: open popup on click
-      });
       count++;
     });
 
 
-    //osu marker
-    const marker = L.marker([39.99955,  -83.01231])
-    .addTo(map)
-    .bindPopup("OSU Here!")
-    .openPopup();
-    markers.push(marker);
+    }, 3); // 5 seconds
 
-
+  return () => clearInterval(interval);
   }, [allOccupants, allMaxCapacities]);
 
   return <div id="map" style={{ height: "500px", width: "500px" }}></div>;
