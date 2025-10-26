@@ -5,9 +5,10 @@ type LibraryType = ReturnType<typeof createLibrary>;
 
 interface ToggleListProps {
     libraryIndex: number;
+    maxValues: number[];
 }
 
-const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex }) => {
+const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex, maxValues }) => {
     const [isVis, setIsVis] = useState(false);
     const [libraries, setLibraries] = useState<LibraryType[]>([]);
 
@@ -50,11 +51,11 @@ const ToggleList: React.FC<ToggleListProps> = ({ libraryIndex }) => {
 
             {isVis && selectedLibrary &&(
              <ul>
-              <li>Cap: <progress id = "progressbar" value= {selectedLibrary.occupants} max="100"></progress></li>
-              <li>Indivdual Workspaces available: {selectedLibrary.singlePersonTables}/200</li>
-              <li>2 Person Workspaces: {selectedLibrary.twoPersonTables}/50</li>
-              <li>4 Person Workspaces: {selectedLibrary.fourPersonTables}/50</li>
-              <li>5+ Person Workspaces: {selectedLibrary.fivePlusPersonTables}/20</li>
+              <li>Cap: <progress id = "progressbar" value= {selectedLibrary.occupants} max={maxValues[0]}></progress></li>
+              <li>Indivdual Workspaces available: {selectedLibrary.singlePersonTables}/{maxValues[1]}</li>
+              <li>2 Person Workspaces: {selectedLibrary.twoPersonTables}/{maxValues[2]}</li>
+              <li>4 Person Workspaces: {selectedLibrary.fourPersonTables}/{maxValues[3]}</li>
+              <li>5+ Person Workspaces: {selectedLibrary.fivePlusPersonTables}/{maxValues[4]}</li>
              </ul>
             )}
         </div>
