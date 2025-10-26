@@ -36,16 +36,16 @@ const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacites }) => {
 
     //array for library locations
     const libraryLocations: { name: string; coords: [number, number] }[] = [
-      { name: "OSU is here", coords: [39.99955,  -83.01231] },
       { name: "Thompson Library", coords: [39.99923, -83.01489] },
-      { name: "Health Sciences Library", coords: [39.99477, -83.01710] },
       { name: "18th Ave Library", coords: [40.00163,  -83.01337] },
-      { name: "Geology Library", coords: [39.99839,  -83.01179] },
       { name: "Architecture Library", coords: [40.00374,  -83.01640] },
       { name: "Fine Arts Library", coords: [40.00056,  -83.00897] },
       { name: "FAES Library", coords: [40.00511,  -83.02716] },
+      { name: "Geology Library", coords: [39.99839,  -83.01179] },
+      { name: "Health Sciences Library", coords: [39.99477, -83.01710] },
       { name: "Law Library", coords: [39.99630,  -83.00827] },
       { name: "Veterinary Medicine Library", coords: [39.99945,  -83.02645] },
+      { name: "OSU is here", coords: [39.99955,  -83.01231] },
     ];
 
     //array of markers
@@ -57,6 +57,15 @@ const Spot: React.FC<SpotProps> = ({ allOccupants, allMaxCapacites }) => {
       .bindPopup(`${lib.name}!`);
       markers.push(marker);
 
+      const percentage = occupants / maxCapacity * 100;
+
+      if(percentage > 66){
+        marker.setIcon(redIcon);
+      }else if(percentage > 33){
+        marker.setIcon(yellowIcon);
+      }else{
+        marker.setIcon(greenIcon);
+      }
       // //action listener:
       // marker.on("mouseover", (e: L.LeafletMouseEvent) => {
       //   marker.setIcon(greenIcon);
